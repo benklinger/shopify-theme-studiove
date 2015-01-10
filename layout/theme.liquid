@@ -1,0 +1,77 @@
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if IE 7]><html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if IE 9 ]><html class="ie9 no-js"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html class="no-js"> <!--<![endif]-->  
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="Ben Klinger">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  {% if template == '404' %}
+  <title>Page Not Found | {{ shop.name }}</title>
+  {% else %}
+  <title>{{ page_title }} by {{ shop.name }}</title>
+  {% endif %}
+  {% if page_description %}
+  <meta name="description" content="{{ page_description }}" />
+  {% endif %}
+  <meta name="keywords" content="clock, clocks, designer clock, unusual clock, unique clock, wall clock, time, clocks reinvented, clock shop, clock store, buy clock, 3d clock, big clock, large clock, modern clocks, contemporary clocks" />
+  <meta name="language" content="english" />
+  <link rel="shortcut icon" href="{{ 'favicon.png' | asset_url }}" type="image/png" />
+  <link rel="canonical" href="{{ canonical_url }}" />
+  {{ content_for_header }}
+  <!--[if lt IE 9]>
+  {{ '//html5shiv.googlecode.com/svn/trunk/html5.js' | script_tag }}
+  <![endif]-->
+</head>
+<body id="{{ page_title | handle }}" class="template-{{ template | replace: '.', ' ' | truncatewords: 1, '' | handle }}" >
+{{ 'bootstrap.css' | asset_url | stylesheet_tag }}
+{{ 'style.css' | asset_url | stylesheet_tag }}
+{{ '//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css' | stylesheet_tag }}
+{{ '//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js' | script_tag }}
+{{ 'underscore.min.js' | asset_url | script_tag }}
+{{ 'intention.min.js' | asset_url | script_tag }}
+{{ 'context.min.js' | asset_url | script_tag }}
+{{ 'jquery.ajax-cart.min.js' | asset_url | script_tag }}
+{{ 'bootstrap.min.js' | asset_url | script_tag }}
+	<header>
+		{% include 'message-bar' %}
+		{% include 'navbar-index' %}
+    </header>
+<div class="container-fluid">
+    <div id="main" role="main">
+		<div class="row clearfix">
+	  {{ content_for_layout }}
+	  	</div>
+    </div>
+</div>
+    <footer class="footer">
+		{% include 'footer' %}
+    </footer>
+{% include 'currencies' %}
+{{ 'scripts.js' | asset_url | script_tag }}
+<script type="text/javascript">
+var google_tag_params = {
+ecomm_prodid: '{{ product.id }}',
+ecomm_pagetype: '{{ template }}',
+ecomm_totalvalue: '{{ product.price_min | money_without_currency }}',
+};
+</script>
+<script type="text/javascript">
+/* <![CDATA[ */
+var google_conversion_id = 1002361345;
+var google_custom_params = window.google_tag_params;
+var google_remarketing_only = true;
+/* ]]> */
+</script>
+<script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js">
+</script>
+<noscript>
+<div style="display:inline;">
+<img height="1" width="1" style="border-style:none;" alt="" src="//googleads.g.doubleclick.net/pagead/viewthroughconversion/1002361345/?value=0&amp;guid=ON&amp;script=0"/>
+</div>
+</noscript>
+</body>
+</html>

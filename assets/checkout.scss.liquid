@@ -1,0 +1,22 @@
+/* Checkout CSS */
+
+.payment-method.paypal {
+  background: url({{ 'payreplace.png' | asset_url }}) no-repeat center center;
+  width: 198px /* use the width of your own image here */;
+}
+
+label[for=checkout_payment_gateway_3612425]:before {
+  content: "Credit Card or "
+}
+
+.product__image {
+  display: none;
+}
+
+.total-line--taxes {
+  display: none;
+}
+
+/// #show-discount-form-link {display:none !important;}
+
+/// div#discount-field {display:block !important;}

@@ -1,0 +1,262 @@
+{{ 'product.js' | asset_url | script_tag }}
+{{ 'noty.default.js' | asset_url | script_tag }}
+<form name="add-prod" action="/cart/add" method="post">
+<div class="product-information">
+    <ul id="product-details">
+      <h1><span itemprop="name">{{ product.title }}</span>
+          	{% include 'snippet-share' %}
+		</h1>
+      <li>
+        <div id="full_description">
+          <span itemprop="description">
+          {{ product.description }}
+          </span>
+        </div>
+      </li>
+	{% if product.variants.size > 1 %}
+	<p class="aval">Available in:</p>
+	<li id="swatches">{% include 'swatches' %}</li>
+	{% endif %}
+      <li id="product-variants">
+		<select id="product-select" name="id[]">
+		 {% for variant in product.variants %}
+		  <option value="{{ variant.id }}">{{ variant.title }} - {{ variant.price | money }}</option>
+            {% endfor %}
+			</select>
+      </li>
+
+	  <li id="product-prices">
+	    <div id="product-add-wrap">
+          <input href="#" type="submit" name="add" id="add-to-cart" value="Add to cart">
+        </div>
+		<p itemprop="offers" itemtype="http://schema.org/Offer" itemscope id="product-price">
+          <link itemprop="availability" href="http://schema.org/InStock" />
+          <meta itemprop="priceCurrency" content="USD" />
+          <meta itemprop="price" content="{{ product.metafields.global.priceinusd }}" />
+          <span class="product-price" >{{ product.price | money }}</span>
+		</p>
+                  <meta itemprop="gtin13" content="0{% for variant in product.variants | limit: 1 %}{{ variant.barcode }}{% endfor %}" />
+      </li>      
+      <li>
+		<div class="custom_container"></div>
+	  </li>
+    </ul>
+  </form>
+<div class="learnmore">
+	<ul class="options">
+		<li>
+          
+    	{% comment %}<div class="tooltip">All orders are trackable. Delivery time varies according to country and carrier</div>{% endcomment %}
+<div class="product-tooltip airplane">
+  {% if product.title == "Orbits Clock" %}Ships within 3 weeks{% else %}free shipping on orders over <span class="money">₪520</span>{% endif %}{% comment %}<span class="more">learn more...</span>{% endcomment %}
+</div>
+		</li>
+	</ul>
+</div>
+<li id="product-title">
+    <h1>More Details</h1>
+</li>
+<div id="more-details">
+{{ product.metafields.more-details.sixq }}{{ product.metafields.more-details.sixa }}
+{{ product.metafields.more-details.twoq }}{{ product.metafields.more-details.twoa }}
+{{ product.metafields.more-details.oneq }}{{ product.metafields.more-details.onea }}
+{{ product.metafields.more-details.threeq }}{{ product.metafields.more-details.threea }}
+{{ product.metafields.more-details.fourq }}{{ product.metafields.more-details.foura }}
+{{ product.metafields.more-details.fiveq }}{{ product.metafields.more-details.fivea }}
+</div>
+<div class="learnmore">
+	<ul class="options">
+		<li>
+{% if product.title == "K Clock" or product.title == "V Clock" or product.title == "D Clock" or product.title == "P Clock" or product.title == "Z Clock" %}
+          {% comment %}<div class="tooltip">{{ product.metafields.kickstarter.number }} backers raised ${{ product.metafields.kickstarter.money }} for initial production on Kickstarter</div>{% endcomment %}
+<a class="kickstarterlink" href="{{ product.metafields.kickstarter.url }}">
+  <div class="product-tooltip kickstarter">
+    kickstarted by {{ product.metafields.kickstarter.number }} backers{% comment %}<span class="more">learn more...</span>{% endcomment %}
+  </div>
+</a>
+          {% elsif product.title == "Orbits Clock" %}
+          {% comment %}<div class="tooltip">Every {{ product.title }} is hand made only after the order is placed</div>{% endcomment %}
+<div class="product-tooltip mailheart">
+	custom made to order{% comment %}<span class="more">learn more...</span>{% endcomment %}
+  </div>
+          {% else %}
+{% comment %}<div class="tooltip">Every {{ product.title }} ships with hour markers vinyl stickers</div>{% endcomment %}
+<div class="product-tooltip numbers">
+	free wall decals included{% comment %}<span class="more">learn more...</span>{% endcomment %}
+  </div>
+          {% endif %}
+		</li>
+	</ul>
+</div>
+  <div id="shopify-product-reviews" data-id="{{product.id}}">{{ product.metafields.spr.reviews }}</div>
+</div>
+<div id="prod-photos">
+	<div id="slideshow" class="slideshow"></div>
+	<div id="thumbs" class="navigation">
+		<ul class="thumbs noscript" id="product-photo-thumbs">
+	  {% for image in product.images %}
+        <li>
+            <a class="thumb" name="{{ image.alt | escape }}" href="{{ image.src | product_img_url: 'original' }}">
+                <img itemprop="image" src="{{ image.src | product_img_url: 'thumb' }}" alt="{{ image.alt | escape }}" width="50px" height="50px" />
+            </a>
+        </li>
+      {% endfor %}
+      <li>
+        <a class="videothumb" href="http://player.vimeo.com/video/{% if product.title contains "Manifold" %}33896599{% elsif product.title contains "Lithe" %}55348168{% elsif product.title contains "Orbits" %}114001352{% else %}81583783{% endif %}?autoplay=1">{% if product.title == "K Clock" or product.title == "V Clock" or product.title == "D Clock" or product.title == "P Clock" or product.title == "Z Clock" %}{{ 'video-k-clock' | append: '.jpg' | asset_url | img_tag }}{% else %}{{ product.handle | prepend: 'video-' | append: '.jpg' | asset_url | img_tag }}{% endif %}</a>
+      </li>
+		</ul>
+	</div>
+	{{ product.metafields.quotes.first }}
+        {% if product.title == "Orbits Clock" %}
+        {% else %} 
+		{{ product.metafields.quotes.one }}{{ product.metafields.quotes.two }}{{ product.metafields.quotes.three }}{{ product.metafields.quotes.four }}{{ product.metafields.quotes.five }}
+      {% endif %}
+	{{ product.metafields.quotes.last }}
+  <div itemprop="video" itemscope itemtype="http://schema.org/VideoObject">
+    <meta itemprop="name" content="{{ product.metafields.video.name }}" />
+    <meta itemprop="description" content="{{ product.metafields.video.desc }}" />
+    <meta itemprop="duration" content="{{ product.metafields.video.time }}" />
+    <meta itemprop="thumbnailUrl" content="{{ product.metafields.video.thumb }}" />
+    <meta itemprop="embedURL" content="{{ product.metafields.video.embed }}" />
+  <iframe src="//player.vimeo.com/video/{% if product.title contains "Manifold" %}33896599{% elsif product.title contains "Lithe" %}55348168{% elsif product.title contains "Orbits" %}114001352{% else %}81583783{% endif %}?title=0&amp;byline=0&amp;portrait=0&amp;color=f7931d" width="450" height="253" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+  </div>
+{% if product.title == "Orbits Clock" or product.title == "K Clock" or product.title == "V Clock" or product.title == "D Clock" or product.title == "P Clock" or product.title == "Z Clock" %}
+{% else %}
+    <div class="learnmore">
+	<ul class="options">
+		<li>
+{% comment %}<div class="tooltip">{{ product.metafields.kickstarter.number }} backers raised ${{ product.metafields.kickstarter.money }} for initial production on Kickstarter</div>{% endcomment %}
+<a class="kickstarterlink" href="{{ product.metafields.kickstarter.url }}">
+  <div class="product-tooltip kickstarter">
+    kickstarted by {{ product.metafields.kickstarter.number }} backers{% comment %}<span class="more">learn more...</span>{% endcomment %}
+  </div>
+</a>
+    </li>
+	</ul>
+</div>
+    {% endif %}
+</div>
+<script>
+	// colorbox
+		$(".videothumb").colorbox({iframe:true, innerWidth:800, innerHeight:550});
+	// notification
+ function generate(type) {
+ 	var n = $('.custom_container').noty({
+	modal: false,
+	timeout: 10000, // delay for closing event. Set false for sticky notifications
+	text: type,
+	layout: 'inline',
+	type: 'success',
+ 	theme: 'defaultTheme',
+ 	animation: {
+    	open: {height: 'toggle'},
+    	close: {height: 'toggle'},
+    	easing: 'swing',
+    	speed: 200 // opening & closing animation speed
+  }
+ 	});
+}
+	// update money and color
+$(function() {
+	
+	{% assign look_for_image_match = false %}
+  {% assign option_index = 0 %}
+  {% for option in product.options %}
+    {% assign downcased_option = option | downcase %}
+    {% if look_for_image_match == false %}
+      {% if downcased_option contains 'color' or downcased_option contains 'colour' or downcased_option contains 'style' %}
+        {% assign look_for_image_match = true %}
+        {% assign option_index = forloop.index0 %}
+      {% endif %}
+    {% endif %}
+  {% endfor %}
+  Shopify.doNotTriggerClickOnThumb = false;
+
+  var selectCallback = function(variant, selector) {
+
+    if (variant) {
+      if (variant.available) {
+        $('#product-price').html('<span class="product-price">'+ Shopify.formatMoney(variant.price, "{{ shop.money_format }}") + '</span>' );  // update price field
+      }
+      Currency.convertAll(shopCurrency, $('[name=currencies]').val(), 'form[action="/cart/add"] span.money');
+    }
+  };
+
+  new Shopify.OptionSelectors("product-select", { product: {{ product | json }}, onVariantSelected: selectCallback });
+
+  // Auto-select first available variant on page load.
+  {% assign found_one_in_stock = false %}
+  {% for variant in product.variants %}
+    {% if variant.available and found_one_in_stock == false %}
+      {% assign found_one_in_stock = true %}
+      {% for option in product.options %}
+      $('.single-option-selector:eq({{ forloop.index0 }})').val({{ variant.options[forloop.index0] | json }}).trigger('change');
+		// BEGIN SWATCHES
+		$('.swatch li').filter(function() { return $(this).attr('data-option-title') === {{ variant.options[forloop.index0] | json }} }).addClass('selected');
+		// END SWATCHES
+      {% endfor %}
+    {% endif %}
+  {% endfor %}
+  {% if look_for_image_match %}
+
+  // If a Color is selected, show the matching product image.
+  $('.single-option-selector:eq({{ option_index }})').bind('change', function() {
+    if (!Shopify.doNotTriggerClickOnThumb) {
+      $('#product-photo-thumbs img[alt="' + $(this).val() + '"]:eq(0)').trigger('click');      
+    }
+    Shopify.doNotTriggerClickOnThumb = false;
+    return true;
+  });
+
+   // if a user clicks, change.
+   $(".swatch li").click(function () {
+    var e = jQuery(this).attr("data-option-title");
+    $(this).parents(".swatch").find("li").removeClass("selected");
+    $(this).addClass("selected");
+    $(".single-option-selector:contains(" + e + ")").val(e).trigger("change");
+    return false
+});
+   
+  // If an image is shown in Main View, auto-select the corresponding Color option.
+  $('#product-photo-thumbs img').bind('click', function() {
+   var color = $(this).attr('alt');
+   if (color && color !== '') {
+     var options = $('.single-option-selector:eq({{ option_index }}) option[value="' + color + '"]');
+     if (options.size() !== 0) {
+       Shopify.doNotTriggerClickOnThumb = true;
+       $('.single-option-selector:eq({{ option_index }})').val(color).trigger('change');
+	// BEGIN SWATCHES
+	var found_a_swatch = false;
+	$('.swatch li').each(function() { 
+	  if (!found_a_swatch && ($(this).attr('data-option-title') === color)) {
+	    found_a_swatch = true;
+	    $(this).parents('.swatch').find('li').removeClass('selected'); // un-select all the buttons
+	    $(this).addClass('selected');
+	  }
+	});
+	// END SWATCHES
+     }
+   }
+   return true;
+  });
+  {% endif %}
+});
+</script>
+<!-- Google Code for Visitor (Reached Product Page) Conversion Page -->
+<script type="text/javascript">
+/* <![CDATA[ */
+var google_conversion_id = 1002361345;
+var google_conversion_language = "en";
+var google_conversion_format = "3";
+var google_conversion_color = "ffffff";
+var google_conversion_label = "DamyCNetywkQgaT73QM";
+var google_remarketing_only = false;
+/* ]]> */
+</script>
+<script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js">
+</script>
+<noscript>
+<div style="display:inline;">
+<img height="1" width="1" style="border-style:none;" alt="" src="//www.googleadservices.com/pagead/conversion/1002361345/?label=DamyCNetywkQgaT73QM&amp;guid=ON&amp;script=0"/>
+</div>
+</noscript>

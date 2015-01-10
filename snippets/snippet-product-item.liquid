@@ -1,0 +1,56 @@
+<li>
+    <div class="coll-image-wrap">
+    <a href="{{ product.url | within: collection }}{% if product.title == "Orbits Clock" or product.title == "K Clock" or product.title == "V Clock" or product.title == "D Clock" or product.title == "P Clock" or product.title == "Z Clock" %}{% else %}?variant={{ product.metafields.global.idfeatured }}{% endif %}">
+      <div class="reveal">
+        {% if collection.title == 'Store' %}
+      {{ product.handle | prepend: 'coll-' | append: '.jpg' | remove_first: 'the-' | asset_url | img_tag }}
+        {% else %}
+      {{ product.handle | prepend: 'coll-' | append: '.jpg' | asset_url | img_tag }}
+        {% endif %}
+        <div class="hidden">
+  <div class="caption">
+    <div class="centered">
+      {% if product.title == "Orbits Clock" or product.title == "K Clock" or product.title == "V Clock" or product.title == "D Clock" or product.title == "P Clock" or product.title == "Z Clock" %}
+      {{ product.title }}<br/>{{ product.metafields.global.textfeatured }}<br/><br/>
+      {% else %}
+      {{ product.metafields.global.textfeatured }}<br/>{{ product.title }}<br/><br/>
+      {% endif %}
+      <span class="product-price">{{ product.price | money }}</span>
+    </div><!-- end of .centered -->
+  </div><!-- end of .caption -->
+</div><!-- end of .hidden -->
+      </div><!-- end of .reveal -->
+    </a>
+  </div>
+  <div class="coll-prod-caption">
+    <span class="shopify-product-reviews-badge" data-id="{{ product.id }}"></span>
+    <a href="{{ product.url | within: collection }}" class="coll-prod-title">
+      {{ product.title }}
+    </a>
+		{{ product.metafields.global.description_tag }}
+      <a class="coll-prod-more {% if product.title == "Orbits Clock" or product.title == "K Clock" or product.title == "V Clock" or product.title == "D Clock" or product.title == "P Clock" or product.title == "Z Clock" %}moremore{% endif %}" href="{{ product.url | within: collection }}">show me {% if product.title == "Orbits Clock" or product.title == "K Clock" or product.title == "V Clock" or product.title == "D Clock" or product.title == "P Clock" or product.title == "Z Clock" %}more information about the {{ product.title }}{% else %}{{ product.variants.size | minus: 3 }} more {{ product.title }}
+styles{% endif %} &rarr;</a>
+    <div class="coll-prod-var">
+      {% if product.title == "Orbits Clock" or product.title == "K Clock" or product.title == "V Clock" or product.title == "D Clock" or product.title == "P Clock" or product.title == "Z Clock" %}
+      {% else %}
+      {% for variant in product.variants | limit: 3 %}
+      <div class="coll-variant">
+        <a href="{{ product.url | within: collection }}?variant={{ variant.id }}" title="{{ variant.title }}">
+          <div class="reveal">
+          {{ variant.sku | prepend: 'coll-' | append: '.jpg' | asset_url | img_tag: 'variant.title' ,'coll-variant-image' }}
+            <div class="hidden">
+  <div class="caption">
+    <div class="centered">            
+      {{ variant.title }}<br/><br/>
+      <span class="product-price">{{ variant.price | money }}</span>
+    </div><!-- end of .centered -->
+  </div><!-- end of .caption -->
+</div><!-- end of .hidden -->
+      </div><!-- end of .reveal -->
+        </a>
+      </div>
+      {% endfor %}
+      {% endif %}
+	</div>
+  </div>
+</li>

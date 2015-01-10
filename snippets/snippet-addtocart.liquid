@@ -1,0 +1,29 @@
+{% assign linklist = linklists['add-to-cart'] %}
+{% if linklist.links.size > 0 %}
+ 
+  <script>
+  if (typeof Shopify === 'undefined') var Shopify = {};
+  Shopify.cart = {{ cart | json }};
+  Shopify.toAdd = {{ linklist.links.first.object.variants.first.id }};
+  var pleaseAdd = false;
+  Shopify.idsInCart = [];
+  for (var i=0; i<Shopify.cart.items.length; i++) {
+    Shopify.idsInCart.push(Shopify.cart.items[i].id);
+    if (Shopify.cart.items[i].id !== Shopify.toAdd) {
+      pleaseAdd = true;
+    }
+  }
+  if (pleaseAdd && (jQuery.inArray(Shopify.toAdd, Shopify.idsInCart) === -1)) {
+    var params = {
+      type: 'POST',
+      url: '/cart/add.js',
+      data: 'quantity=1&id=' + Shopify.toAdd,
+      dataType: 'json',
+      success: function(line_item) { 
+        window.location.href = '/cart';
+      }
+    };
+    jQuery.ajax(params);
+  }
+  </script>
+{% endif %}

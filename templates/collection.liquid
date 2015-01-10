@@ -1,0 +1,16 @@
+{% include 'snippet-breadcrumbs' %}
+<div id="product-content">
+  <div class="collection-information">
+  <ul class="coll-li-alt">
+    {% for product in collection.products %}
+        {% include 'snippet-product-item' %}
+    {% endfor %}
+  </ul>
+  </div>
+<!--<script>
+	$(".coll-prod-caption:odd").css("float", "left");
+	$(".coll-image-wrap:odd").css("float", "right");
+   	$(".coll-prod-caption:even").css("float", "right");
+  	$(".coll-image-wrap:even").css("float", "left");
+</script>-->
+</div>

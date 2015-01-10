@@ -1,0 +1,65 @@
+<script type="text/javascript">(function(){var e=["2013-11-28","2013-12-25","2014-01-01","2014-01-20","2014-02-17","2014-05-26","2014-07-04","2014-09-01","2014-10-13","2014-11-11","2014-11-27","2014-12-25"];var t=function(t){function r(e){e|=0;return(e<10?"0":"")+e}var a=t.getFullYear()+"-"+r(t.getMonth()+1)+"-"+r(t.getDate());if(e.indexOf(a)!=-1)return 1;else return 0};function r(t,r){var a=t.getDay();var n=new Date(t.getTime());var i=new Date(t.getTime());i.setDate(t.getDate()+r+(a===6?2:+!a)+Math.floor((r-1+(a%6||1))/5)*2);for(var u in e){var v=e[u];var g=v.split("-");var D=new Date(g[0],g[1]-1,g[2]);var o=0;if(D.getTime()>=n.getTime()&&D.getTime()<=i.getTime()&&D.getDay()!=0&&D.getDay()!=7){i=new Date(i.getTime()+864e5);o++}if(o>1){i=new Date(i.getTime()+864e5)}}return i}function a(e){var t=new Array("January","February","March","April","May","June","July","August","September","October","November","December");var r=e.getDate();var a=e.getMonth();var n=e.getFullYear();return""+t[a]+" "+r+", "+n}jQuery(document).ready(function(e){var t=new Date;var n=r(t,14);var i=r(t,6);e("#todayDate").text(a(t));e("#normalArrivalDate").text(a(n));e("#fastestArrivalDate").text(a(i))})})();</script>
+<div id="shipping-calculator" class="nobottom">
+  <div class="ontop">est. delivery</div>
+  <br/>
+  <ul id="shipping-rates">
+    <li class="line18">Registered (10-21 Days):<br/><div id="normalArrivalDate"></div></li><br/>
+<li class="line18">EMS (3-7 Days):<br/><div id="fastestArrivalDate"></div></li>
+    </ul>
+  </div>
+<div id="shipping-calculator">
+  <div class="ontop">shipping rates</div>
+  <div id="shipping-calculator-form-wrapper">
+      <p id="address_country_container">
+        <label for="address_country"></label>
+        <select id="address_country" class="special-select" name="address[country]" data-default="{% if shop.customer_accounts_enabled and customer %}{{ customer.default_address.country }}{% elsif settings.shipping_calculator_default_country != '' %}{{ settings.shipping_calculator_default_country }}{% endif %}">{{ country_option_tags }}</select>
+      </p>
+      <p id="address_province_container" style="display:none;">
+        <label for="address_province" id="address_province_label">Province</label>
+        <select id="address_province" class="address_form special-select" name="address[province]" data-default="{% if shop.customer_accounts_enabled and customer and customer.default_address.province != '' %}{{ customer.default_address.province }}{% endif %}"></select>
+      </p> 
+      <p id="address_zip_container">
+        <label for="address_zip">Zip/Postal Code</label>
+        <input type="text" id="address_zip" class="styled-input" name="address[zip]" value="36101" />
+      </p>
+	  <div id="wrapper-response"></div>
+      <p id="get-rates-container">
+        <label for="get-rates-submit">&nbsp;</label>
+        <input type="submit" id="get-rates-submit" class="get-rates styled-submit" value="{{ settings.shipping_calculator_submit_button_label }}" />
+      </p>  
+  </div><!-- .shipping-calculator-form-wrapper -->
+</div>
+<script id="shipping-calculator-response-template" type="text/x-jquery-tmpl">
+  {% raw %}
+  <p id="shipping-rates-feedback" class="{{if success}}success{{else}}error{{/if}}">
+  {{if success}}
+    {{if rates.length > 1}}
+    {{else}}
+      {{if rates.length == 1}}
+      {{else}}
+      no shipping rate available
+      {{/if}}
+    {{/if}}
+  {{else}}
+    ${errorFeedback}
+  {{/if}}
+  </p>
+  <ul id="shipping-rates">
+    {{each( index, rate ) rates}}
+    <li class="line18">${rate.name} - {{html Shopify.Cart.ShippingCalculator.formatRate(rate.price)}}</li>
+    {{/each}}
+  </ul>
+  {% endraw %} 
+</script>
+{{ 'http://ajax.aspnetcdn.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js' | script_tag }}
+{{ 'shopify_common.js' | shopify_asset_url | script_tag }}
+{{ '/services/javascripts/countries.js' | script_tag }}
+{{ 'jquery.cart.min.js' | asset_url | script_tag }} 
+<script>
+Shopify.Cart.ShippingCalculator.show( {
+  submitButton: {{ settings.shipping_calculator_submit_button_label | json }}, 
+  submitButtonDisabled: {{ settings.shipping_calculator_submit_button_label_disabled | json }}{% if shop.customer_accounts_enabled and customer %},
+  customerIsLoggedIn: true{% endif %},
+  moneyFormat: {{ shop.money_format | json }}
+} );
+</script>

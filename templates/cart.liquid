@@ -1,0 +1,105 @@
+{% include 'snippet-breadcrumbs' %}
+<div id="page-container">
+  <div class="cart-information page-title">
+  {% if cart.item_count > 0 %}
+	<div class="curreny">
+    <a class="orange styled-checkout" href="http://www.google.com/search?q={{ cart.total_price | divided_by:100 | strip_html }}+ils+to+usd">On the next page, the subtotal ({{ cart.total_price | money }}) will appear as ₪{{ cart.total_price | divided_by: 100 }}. Click to find out how much it's exactly.</a>
+  </div>
+  <form action="/cart" method="post" id="cartform">
+    <input type="hidden" name="attributes[weight]" value="{{ cart.total_weight | weight_with_unit }}" />
+    <table cellspacing="0">
+      <tr class="carttop">
+	    <td width="15px">&nbsp;</td>
+	    <td width="35px">&nbsp;</td>
+        <td width="65px">Item</td>
+        <td width="390px">&nbsp;</td>
+        <td width="75px">Price</td>
+        <td width="75px">Quantity</td>
+        <td width="55px">Total</td>
+      </tr>
+      {% for item in cart.items %}
+      <tr class="cart-row">
+		<td></td>
+		<td class="cart-price eix"><a href="/cart/change?line={{ forloop.index }}&quantity=0" title="Remove">X</a></td>
+        <td>
+ 			{% assign option_index = 0 %}
+			{% assign found_option = false %}
+			{% assign index = 0 %}
+			{% assign found_image = false %}
+			{% for option in item.product.options %}
+			  {% if found_option == false %}
+			    {% assign downcased_option = option | downcase %}
+			    {% if downcased_option contains 'color' or downcased_option contains 'colour' or downcased_option contains 'style' %}
+			      {% assign option_index = forloop.index0 %}
+			      {% assign found_option = true %}
+			    {% endif %}
+			  {% endif %}
+			{% endfor %}
+			{% if found_option %}
+			{% for image in item.product.images %}
+			  {% unless found_image %}
+			    {% if image.alt == item.variant.options[option_index] %}
+			      {% assign index = forloop.index0 %}
+			      {% assign found_image = true %}
+			    {% endif %}
+			  {% endunless %}
+			{% endfor %}
+			{% endif %}
+			{% if item.title contains "Clock" or "Uhr" %}<a href="/collections/shop{{ item.product.url }}" title="{{ item.title | escape }}">{% else %}{% endif %}
+			  <img class="roundme" src="{{ item.product.images[index] | product_img_url: 'thumb' }}" alt="{{ item.variant.title | escape }}" />
+			{% if item.title contains "Clock" %}</a>{% else %}{% endif %}
+        </td>
+        <td class="cart-detail">
+          {% if item.title contains "Clock" or "Uhr" %}
+			<a href="/collections/shop{{ item.product.url }}">
+			{{ item.title }}{% if item.product.variants.size == 1 %}{% endif %}
+			</a>
+{% else %}
+{{ item.title }}
+{% endif %}
+        </td>
+        <td class="cart-price">{{ item.price | money }}</td>
+        <td class="cart-quantity"><input type="text" class="styled-input quant" name="updates[]" id="updates_{{ item.id }}" value="{{ item.quantity }}" /></td>
+        <td class="cart-price">{{ item.line_price | money }}</td>
+      </tr>
+      {% endfor %}
+    </table>
+    <div id="cart-meta">
+      <div id="cart-subtotal">Subtotal: <em>{{ cart.total_price | money }}</em></div>
+      <div id="estimated-shipping" style="display:none">+ <em>{{ 0 | money }}</em> shipping</div>
+	</div>
+	<input type="submit" id="update-cart" name="update" value="Update" />
+	{% unless cart.item_count == 0 %}
+	<div id="forgot_password"><a href="/collections/shop/">&larr; Continue Shopping</a></div>
+	{% endunless %}
+    </div>
+	<div class="collection-menu">
+{% include 'snippet-shipping-rates-calculator' %}
+<div id="checkout-container">
+    <input id="checkout-button" type="submit" class="orange styled-checkout" name="checkout" value="Check Out" />
+  {% if additional_checkout_buttons %}
+  <p class="optionor">- or -</p>
+<div class="additional-checkout-buttons">
+  {{ content_for_additional_checkout_buttons }}
+</div>
+{% endif %}
+  </form>
+</div>
+<div class="weaccept_height" id="shipping-calculator">
+  <div class="ontop weaccept">we accept</div>
+	<div class="payment">{{'payment.png' | asset_url | img_tag }}</div>
+</div>
+	</div>	
+  {% else %}
+    It appears that your cart is currently empty!
+    You can continue browsing <a href="/collections/shop/">here</a>.
+  </div>
+	<div class="collection-menu">
+		{% include 'snippet-shipping-rates-calculator' %}
+		<div class="weaccept_height" id="shipping-calculator">
+		  <div class="ontop weaccept">we accept</div>
+			<div class="payment">{{'payment.png' | asset_url | img_tag }}</div>
+		</div>
+	</div>
+  {% endif %}
+</div>

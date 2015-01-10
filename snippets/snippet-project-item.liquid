@@ -1,0 +1,8 @@
+<li class="coll-prod-image-wrap">
+    <a href="{{ article.url }}">
+		{{ article.id | prepend: 'coll-' | append: '.jpg' | asset_url | img_tag }}
+	</a>
+	<a href="{{ article.url }}" class="coll-prod-title2">
+    {{ article.title }}
+  </a>
+</li>

@@ -1,0 +1,46 @@
+<div id="page-container">
+	<div id="page-content" class="page-content">
+    {{ page.content }}
+      {% form 'contact' %}
+      {% if form.posted_successfully? %}
+      <div class="success feedback">
+        <li>Thanks for contacting us! We'll get back to you as soon as possible.</li>
+      </div>
+      {% endif %}
+
+      {% if form.errors %}
+      <div class="errors feedback">
+        {% for field in form.errors %}
+          <li>The {{ field | capitalize | replace: 'Body', 'Message' }} field {{ form.errors.messages[field] }}.</li>
+        {% endfor %}
+      </div>
+      {% endif %}
+      
+      {% unless form.posted_successfully? %}
+    <div class="loginbox contactbox">    
+		<div id="login_email">
+	        <label class="login">Your Name:</label>
+        	<input type="text" id="contactFormName" name="contact[name]" placeholder="Your name" class="styled-input{% if form.errors contains 'name' %} error{% endif %}" value="{{ contact.fields.name }}" />
+		</div>
+      	<div id="login_email">
+        	<label class="login">Email:</label>
+        	<input required="required" type="email" id="contactFormEmail" name="contact[email]" placeholder="your@email.com" class="styled-input{% if form.errors contains 'email' %} error{% endif %}" value="{{ contact.fields.email }}" />
+		</div>
+        	<input type="hidden" id="contactFormTelephone" name="contact[phone]" value="{{ contact.fields.phone }}" />
+      	<div id="login_email">
+        	<label class="login">Message:</label>
+        	<textarea required="required" rows="10" cols="60"  id="contactFormMessage" name="contact[body]" placeholder="Your Message" class="styled-input{% if form.errors contains 'body' %} error{% endif %} message">{{  contact.fields.body }}</textarea>
+      	</div>	
+      <div id="forgot_password">
+        <input class="styled-submit" type="submit" id="contactFormSubmit" value="Send" />
+      </div>
+  </div>
+      {% endunless %}
+      {% if form.posted_successfully? or form.errors %}
+        <script>
+          window.location.hash = '#page-content';
+        </script>
+      {% endif %}
+    {% endform %}
+</div>
+</div>

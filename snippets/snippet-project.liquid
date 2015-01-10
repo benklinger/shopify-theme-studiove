@@ -1,0 +1,85 @@
+<div class="product-information">
+    <ul id="product-details">
+      <li id="product-title">
+	      {% if collection %}
+	        {% if collection.previous_product or collection.next_product %}
+	        {% if collection.next_product %}
+	          {% capture next_url %}{{ collection.next_product}}{% endcapture %}
+	          <span class="prev-next next">{{ 'Next' | link_to: next_url }}</span>
+	        {% endif %}
+			 {% if collection.previous_product %}
+		          {% capture prev_url %}{{ collection.previous_product}}{% endcapture %}
+		          <span class="prev-next prev">{{ 'Prev' | link_to: prev_url }}</span>
+		        {% endif %}
+	        {% endif %}
+	      {% endif %}
+        <h1>{{ product.title }}</h1>
+      </li>
+      <li id="product-description">
+        <div id="full_description" itemprop="description">
+          {{ product.description }}
+        </div>
+      </li>
+
+<li id="product-title">
+    <h1>More Details</h1>
+</li>
+<div id="more-details">
+{{ product.metafields.more-details.oneq }}{{ product.metafields.more-details.onea }}
+{{ product.metafields.more-details.twoq }}{{ product.metafields.more-details.twoa }}
+{{ product.metafields.more-details.threeq }}{{ product.metafields.more-details.threea }}
+{{ product.metafields.more-details.fourq }}{{ product.metafields.more-details.foura }}
+{{ product.metafields.more-details.fiveq }}{{ product.metafields.more-details.fivea }}
+</div>
+</div>
+<div id="prod-photos">
+	<div id="slideshow" class="slideshow"></div>
+	<div id="thumbs" class="navigation">
+		<ul class="thumbs noscript">
+	  {% for image in product.images %}
+        <li>
+            <a class="thumb" href="{{ image.src | product_img_url: 'original' }}">
+                <img src="{{ image.src | product_img_url: 'thumb' }}" alt="{{ image.alt | escape }}" />
+            </a>
+        </li>
+      {% endfor %}
+		</ul>
+	</div>
+</div>
+		{{ product.metafields.quotes.first }}
+			{{ product.metafields.quotes.one }}{{ product.metafields.quotes.two }}{{ product.metafields.quotes.three }}{{ product.metafields.quotes.four }}{{ product.metafields.quotes.five }}
+		{{ product.metafields.quotes.last }}
+{{ 'jquery.galleriffic.min.js' | asset_url | script_tag }}
+{{ 'jquery.quovolver.min.js' | asset_url | script_tag }}
+<script>
+$(document).ready(function() {
+	// quotes
+	 $('.prod-quotes').quovolver({
+	    transitionSpeed : 200,
+		equalHeight : false,
+		pauseOnHover : true,
+	    autoPlay : true,
+		autoPlaySpeed : 10000
+	 });
+	
+	// galleriffic
+			var gallery = $('#thumbs').galleriffic({
+				delay:                     500,
+				numThumbs:                 15,
+				preloadAhead:              10,
+				enableTopPager:            false,
+				enableBottomPager:         false,
+				maxPagesToShow:            1,
+				imageContainerSel:         '#slideshow',
+				controlsContainerSel:      '#controls',
+				captionContainerSel:       '#caption',
+				loadingContainerSel:       '#loading',
+				renderSSControls:          false,
+				renderNavControls:         false,
+				enableHistory:             false,
+				autoStart:                 false,
+				syncTransitions:           true,
+				defaultTransitionDuration: 300
+	});
+});
+</script>

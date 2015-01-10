@@ -1,0 +1,178 @@
+{{ 'jquery.flexslider.min.js' | asset_url | script_tag }}
+<script type="text/javascript" charset="utf-8">
+  $(window).load(function() {
+    $('.flexslider').flexslider({
+        animation: "fade",
+		pauseOnHover: true,
+		slideshow: true,
+		slideshowSpeed: 8000,
+		animationSpeed: 400,      
+      	easing: "swing",
+     	controlNav: true,               
+		directionNav: false,
+    });
+  });
+</script>
+{% include 'snippet-breadcrumbs' %}
+ <div id="page-content">
+   <div class="slider-container">
+<div class="flexslider">
+<ul class="slides">
+    {{ article.content }}
+  </ul>
+</div>
+</div>
+	<div id="project-container">
+		<div class="project-information">
+			<h1>{{ article.title }}
+          {% include 'snippet-share' %}
+          </h1>
+			<div id="full_description">{{ article.excerpt }}</div>
+			{% if article.title == "Staple City" %}{% else %}
+			<div class="learnmore">
+				<ul class="options">
+					<li>
+				<div class="tooltip">get an update if and when {{ article.title }} reaches production</div>
+			<div class="product-tooltip mailheart">
+				<span class="more">
+                  <div id="mc_embed_signup">
+                    <form action="http://studiove.us2.list-manage.com/subscribe/post?u=166c10722fbe6b005e77273d6&amp;id=b1cff923c8" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+                      <div class="mc-field-group">
+                        <input type="email" onfocus="if(this.value == 'name@email.com') { this.value = ''; }" value="name@email.com" name="EMAIL" class="required email" id="mce-EMAIL">
+						<input type="checkbox" id="group_128" name="group[15377][128]" value="1" class="av-checkbox" checked>
+                        <input type="submit" value="Go!" name="subscribe" id="mc-embedded-subscribe" class="button">
+                      </div>
+                      <div id="mce-responses">
+                        <div class="response" id="mce-error-response" style="display:none"></div>
+                        <div class="response" id="mce-success-response" style="display:none"></div>
+                      </div>
+                    </form>
+                  </div>
+              </span>
+				notify me when available
+			</div>
+			</ul>
+			</div>
+			{% endif %}
+		</div>
+		<div id="project-more">
+			<h1>More Details</h1>
+			<div id="more-details">
+				{% for comment in article.comments %}
+				<li><span>{{ comment.author }}</span>{{ comment.content }}</li>
+				{% endfor %}
+			</div>
+			{% if article.title == "Two Leg Table" %}
+			<div class="prod-quotes">
+					<blockquote>
+						<a href="http://designtaxi.com/news/32583/Two-Legs-Better-than-Four-on-this-Table/">"Two Legs Better than Four on this Table."
+							<div class="taxi quoteimg"></div>
+						</a>
+					</blockquote>
+					<blockquote>
+						<a href="http://www.furniturefashion.com/the_two_leg_table_can_perfectly_hold_its_own/">"even if we’re talking about a Two Leg table, it has four points of contact with the floor, thanks to this out-of-the-box design."
+							<div class="f2 quoteimg"></div>
+						</a>
+					</blockquote>
+				</div>
+					{% elsif article.title == "Endy Series" %}
+					<div class="prod-quotes">
+					<blockquote>
+						<a href="http://www.trendhunter.com/trends/endy-series/">"Full of character."
+							<div class="trendhunter quoteimg"></div>
+						</a>
+					</blockquote>
+						<blockquote>
+							<a href="http://www.designboom.com/design/studio-ve-endy-series/">"endy series celebrates the origins of the material by displaying the bright colors as they are integrated into the furniture"
+								<div class="designboom quoteimg"></div>
+							</a>
+						</blockquote>
+						<blockquote>
+							<a href="http://design-milk.com/endy-by-studio-ve/">"Studio Ve cleverly uses these ends making sure the vibrantly colored ends are seen from all angles."
+								<div class="designmilk quoteimg"></div>
+							</a>
+						</blockquote>
+						</div>
+						{% elsif article.title contains "Shelf" %}
+						<div class="prod-quotes">
+						<blockquote>
+							<a href="http://www.core77.com/blog/object_culture/this_just_inbox_studio_ves_clever_bookshelves_reposition_convention__17760.asp">"clever shelves that preserve the material convention of wooden planks and steel bookends while proposing new shelving arrangements."
+								<div class="core77 quoteimg"></div>
+							</a>
+						</blockquote>
+						<blockquote>
+							<a href="http://www.weheart.co.uk/2010/11/18/studio-ve-shelving/">"added touch of cheek and creativity."
+								<div class="weheart quoteimg"></div>
+							</a>
+						</blockquote>
+						</div>
+						{% elsif article.title contains "Bookmark" %}
+							<div class="prod-quotes">
+							<blockquote>
+								<a href="http://www.trendhunter.com/trends/tongue-bookmark">"What you need is the simple Tongue Bookmark."
+									<div class="trendhunter quoteimg"></div>
+								</a>
+							</blockquote>
+							<blockquote>
+								<a href="http://www.core77.com/blog/featured_items/its_small-time_tongue_bookmark__18096.asp">"simple concept with a great execution."
+									<div class="core77 quoteimg"></div>
+								</a>
+							</blockquote>
+							</div>
+							{% elsif article.title == "Toast-ER" %}
+								<div class="prod-quotes">
+									<blockquote>
+										<a href="http://gizmodo.com/5598557/making-toast-clear">"If only this defibrillator toaster concept were real, I could scream, "I NEED 50 CCs of butter, stat," every morning without looking like a total lunatic."
+											<div class="gizmodo quoteimg"></div>
+										</a>
+									</blockquote>
+								<blockquote>
+									<a href="http://www.trendhunter.com/trends/shay-carmon">"cute and clever design."
+										<div class="trendhunter quoteimg"></div>
+									</a>
+								</blockquote>
+								</div>
+								{% elsif article.title == "Staple City" %}
+									<div class="prod-quotes">
+										<blockquote>
+											<a href="http://gizmodo.com/5972774/staple-citys-a-towering-metropolis-of-desk-organization">"an adorable way to store your office supplies. turns your extra stacks of staples into tiny skyscrapers."
+												<div class="gizmodo quoteimg"></div>
+											</a>
+										</blockquote>
+									<blockquote>
+										<a href="http://www.trendhunter.com/trends/staple-city">"This office supply set is quite handy, adding to its evident visual appeal."
+											<div class="trendhunter quoteimg"></div>
+										</a>
+									</blockquote>
+									</div>
+									{% elsif article.title == "Horseless Rocking" %}
+										<div class="prod-quotes">
+											<blockquote>
+												<a href="http://www.trendhunter.com/trends/horseless-rocking-horse1">"a unique experience that a regular rocking horse cannot provide."
+													<div class="trendhunter quoteimg"></div>
+												</a>
+											</blockquote>
+										<blockquote>
+											<a href="http://design-milk.com/deconstruction-horseless-rocking-horse-by-studio-ve/">"neglects the traditional classic characteristics. instead brings the fragrance and the sense that describes the horse."
+												<div class="designmilk quoteimg"></div>
+											</a>
+										</blockquote>
+										</div>
+						{% else %}
+				{% endif %}
+		</div>
+  	</div>
+</div>
+{{ 'jquery.quovolver.min.js' | asset_url | script_tag }}
+<script>
+$(document).ready(function() {	
+	// quotes
+	 $('.prod-quotes').quovolver({
+	    transitionSpeed : 500,
+		equalHeight : false,
+		pauseOnHover : true,
+	    autoPlay : true,
+		autoPlaySpeed : 12000
+	 });	
+});
+</script>

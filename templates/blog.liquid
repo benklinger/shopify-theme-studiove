@@ -1,0 +1,10 @@
+{% include 'snippet-breadcrumbs' %}
+<div id="product-content">
+  <div class="projects-information">
+  <ul class="coll-prod-li-alt">
+    {% for article in blogs.Projects.articles %}
+        {% include 'snippet-project-item' %}
+    {% endfor %}
+  </ul>
+  </div>
+</div>

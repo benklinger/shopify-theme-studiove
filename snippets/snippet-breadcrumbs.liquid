@@ -1,0 +1,20 @@
+<div class="h3backtwo"></div>
+<div class="h3back">
+<ul class="submenu">
+	{% case template %}
+	{% when 'product' %}
+		{% for link in linklists.Products.links %}<li class="{% if link.active %}active{% endif %}"><a href="{{ link.url }}">{{ link.title }}</a></li>{% endfor %}
+	{% when 'collection' %}
+		{% for link in linklists.Products.links %}<li><a href="{{ link.url }}">{{ link.title }}</a></li>{% endfor %}
+	{% when 'article' %}
+		{% for link in linklists.Projects.links %}<li class="{% if link.active %}active{% endif %}"><a href="{{ link.url }}">{{ link.title }}</a></li>{% endfor %}
+	{% when 'blog' %}
+		{% for link in linklists.Projects.links %}<li><a href="{{ link.url }}">{{ link.title }}</a></li>{% endfor %}
+	{% when 'index' %}
+		<li><div class="fb-like toplike" data-href="http://facebook.com/studiove" data-send="false" data-colorscheme="light" data-width="450" data-show-faces="false"></div></li>
+		<!-- <li class="toptext">or</li><li><a href="http://eepurl.com/kR6t9">join the Mailing List</a></li><li class="toptext">to be the first to hear about our new designs!</li> -->
+  {% when 'cart' %}
+  <li>got a discount code? apply it after you enter your payment information, in the last checkout page.</li>
+{% endcase %}
+</ul>
+</div>
