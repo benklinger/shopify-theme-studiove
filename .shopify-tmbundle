@@ -10,10 +10,10 @@ use="default"
 
 ; my development shop
 [default]
-api_key="8263ebc325e782b0a81441cc691cfd72"
-password="4035989e628c4d4d4e51e099d32a1b85"
-store="studio-ve-clocks.myshopify.com"
-theme_id="9312725"
+api_key="xxxxxxxxxxxxxxxxxxxxxx"
+password="yyyyyyyyyyyyyyyyyyyyyy"
+store="shopname.myshopify.com"
+theme_id="xxxx"
 
 js_files[]= "js_file_1.js"
 js_files[]= "js_file_2.js"
